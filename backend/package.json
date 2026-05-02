@@ -1,0 +1,21 @@
+{
+  "name": "stock-dashboard-backend",
+  "version": "1.0.0",
+  "description": "Appwrite Function: scrape financial data and persist to Appwrite Tables",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0",
+    "node-appwrite": "^17.0.0",
+    "yahoo-finance2": "^2.11.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.2"
+  }
+}

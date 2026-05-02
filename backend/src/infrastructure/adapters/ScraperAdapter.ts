@@ -206,11 +206,11 @@ export class ScraperAdapter implements IScraper {
       console.warn('[ScraperAdapter] secform4.com scrape failed, using mock data:', err);
     }
 
-    // Fallback: Return mock Indian insider trade data
-    return this.getMockIndianInsiderTrades();
+    // Fallback: Return mixed India + US insider trade data
+    return this.getMockInsiderTrades();
   }
 
-  private getMockIndianInsiderTrades(): InsiderTrade[] {
+  private getMockInsiderTrades(): InsiderTrade[] {
     const today = new Date().toISOString();
     return [
       {
@@ -256,6 +256,42 @@ export class ScraperAdapter implements IScraper {
         trade_type: 'Purchase',
         shares: 40000,
         value_usd: 800000,
+        trade_date: today,
+      },
+      {
+        ticker: 'AAPL',
+        insider_name: 'Tim Cook',
+        insider_title: 'Chief Executive Officer',
+        trade_type: 'Sale',
+        shares: 125000,
+        value_usd: 21750000,
+        trade_date: today,
+      },
+      {
+        ticker: 'NVDA',
+        insider_name: 'Jensen Huang',
+        insider_title: 'President & CEO',
+        trade_type: 'Sale',
+        shares: 85000,
+        value_usd: 76415000,
+        trade_date: today,
+      },
+      {
+        ticker: 'MSFT',
+        insider_name: 'Satya Nadella',
+        insider_title: 'Chairman & CEO',
+        trade_type: 'Purchase',
+        shares: 18000,
+        value_usd: 7686000,
+        trade_date: today,
+      },
+      {
+        ticker: 'TSLA',
+        insider_name: 'Robyn Denholm',
+        insider_title: 'Chair of the Board',
+        trade_type: 'Sale',
+        shares: 42000,
+        value_usd: 7896000,
         trade_date: today,
       },
     ];

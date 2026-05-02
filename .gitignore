@@ -150,9 +150,8 @@ npm-shrinkwrap.json
 .test-output/
 backend/*.csv
 
-# Keep built backend output for Appwrite Function packaging
-!backend/dist/
-!backend/dist/**
+# Backend build output
+backend/dist/
 
 # Frontend build output (managed by Appwrite Sites)
 frontend/.next/

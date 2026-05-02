@@ -1,6 +1,6 @@
 {
     "projectId": "69f58d76003dee022bc9",
-    "projectName": "Samson",
+    "projectName": "Financial Pulse",
     "endpoint": "https://fra.cloud.appwrite.io/v1",
     "sites": [
         {
@@ -10,8 +10,8 @@
             "logging": true,
             "framework": "nextjs",
             "timeout": 30,
-            "installCommand": "pnpm install --filter stock-dashboard-frontend",
-            "buildCommand": "pnpm --filter stock-dashboard-frontend build",
+            "installCommand": "pnpm install --filter financial-pulse-frontend",
+            "buildCommand": "pnpm --filter financial-pulse-frontend build",
             "outputDirectory": ".next",
             "buildRuntime": "node-22",
             "adapter": "ssr",

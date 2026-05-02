@@ -1,5 +1,5 @@
 {
-  "name": "stock-dashboard-backend",
+  "name": "financial-pulse-backend",
   "version": "1.0.0",
   "description": "Appwrite Function: scrape financial data and persist to Appwrite Tables",
   "main": "dist/main.js",

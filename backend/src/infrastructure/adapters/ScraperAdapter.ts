@@ -127,7 +127,7 @@ export class ScraperAdapter implements IScraper {
     const { data: html } = await axios.get<string>(SECFORM4_URL, {
       headers: {
         'User-Agent':
-          'Mozilla/5.0 (compatible; StockDashboard/1.0; +https://github.com/stock-dashboard)',
+          'Mozilla/5.0 (compatible; FinancialPulse/1.0; +https://github.com/financial-pulse)',
         Accept: 'text/html,application/xhtml+xml',
       },
       timeout: 15_000,

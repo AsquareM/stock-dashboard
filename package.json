@@ -1,10 +1,10 @@
 {
-  "name": "stock-dashboard",
+  "name": "financial-pulse",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter stock-dashboard-frontend dev",
-    "build:backend": "pnpm --filter stock-dashboard-backend build",
-    "build:frontend": "pnpm --filter stock-dashboard-frontend build"
+    "dev": "pnpm --filter financial-pulse-frontend dev",
+    "build:backend": "pnpm --filter financial-pulse-backend build",
+    "build:frontend": "pnpm --filter financial-pulse-frontend build"
   }
 }

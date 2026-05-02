@@ -1,33 +1,17 @@
-/**
- * Application-layer contracts (ports).
- * Infrastructure adapters implement these interfaces; the domain and use-cases depend
- * only on these abstractions — never on concrete implementations.
- */
+import { InsiderTrade, InvestorHolding, VolumeShocker } from '../domain/entities';
 
-/**
- * Generic scraper port.
- * Each scraper implementation fetches and maps raw data to a domain entity array.
- */
-export interface IScraper<T> {
-  scrape(): Promise<T[]>;
+export interface IScraper {
+  scrapeInsiders(): Promise<InsiderTrade[]>;
+  scrapeVolumeShockers(): Promise<VolumeShocker[]>;
+  scrapeInvestorHoldings(): Promise<InvestorHolding[]>;
 }
 
-/**
- * Persistence port.
- * Accepts any plain-object document and routes it to the correct collection.
- */
 export interface IRepository {
-  save<T extends Record<string, unknown>>(
-    collectionId: string,
-    doc: T
-  ): Promise<void>;
+  saveInsiderTrades(records: InsiderTrade[]): Promise<void>;
+  saveVolumeShockers(records: VolumeShocker[]): Promise<void>;
+  saveInvestorHoldings(records: InvestorHolding[]): Promise<void>;
 }
 
-/**
- * Logger port.
- * Matches the signature of Appwrite Function context.log / context.error
- * so that the concrete logger can be swapped for tests without mocking the SDK.
- */
 export interface ILogger {
   log(message: string): void;
   error(message: string): void;

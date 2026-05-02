@@ -55,12 +55,8 @@ const INDIAN_TICKERS: { symbol: string; name: string }[] = [
 // Minimum multiplier threshold to qualify as a "volume shocker"
 const VOLUME_SHOCKER_MIN_MULTIPLIER = 1.5;
 
-// ---------------------------------------------------------------------------
-// 1. Volume Shocker Scraper — yahoo-finance2
-// ---------------------------------------------------------------------------
-
-export class VolumeShockerScraper implements IScraper<VolumeShocker> {
-  async scrape(): Promise<VolumeShocker[]> {
+export class ScraperAdapter implements IScraper {
+  async scrapeVolumeShockers(): Promise<VolumeShocker[]> {
     const results = await Promise.allSettled(
       INDIAN_TICKERS.map((t) => this.fetchTicker(t.symbol, t.name))
     );
@@ -73,6 +69,71 @@ export class VolumeShockerScraper implements IScraper<VolumeShocker> {
     }
 
     return shockers;
+  }
+
+  async scrapeInvestorHoldings(): Promise<InvestorHolding[]> {
+    const today = new Date().toISOString();
+
+    return [
+      {
+        investor_name: 'Rakesh Jhunjhunwala (Estate)',
+        company_name: 'Titan Company Ltd',
+        mcap_cr: 285000,
+        current_qtr_pct: 5.05,
+        prev_qtr_pct: 5.05,
+        is_increase: false,
+        report_date: today,
+      },
+      {
+        investor_name: 'Dolly Khanna',
+        company_name: 'Tamilnadu Petro Products',
+        mcap_cr: 2800,
+        current_qtr_pct: 3.12,
+        prev_qtr_pct: 2.88,
+        is_increase: true,
+        report_date: today,
+      },
+      {
+        investor_name: 'Vijay Kedia',
+        company_name: 'Tejas Networks',
+        mcap_cr: 7200,
+        current_qtr_pct: 2.3,
+        prev_qtr_pct: 2.1,
+        is_increase: true,
+        report_date: today,
+      },
+      {
+        investor_name: 'Ashish Kacholia',
+        company_name: 'Mold-Tek Packaging',
+        mcap_cr: 2200,
+        current_qtr_pct: 6.78,
+        prev_qtr_pct: 6.4,
+        is_increase: true,
+        report_date: today,
+      },
+      {
+        investor_name: 'Mukul Agrawal',
+        company_name: 'Aurionpro Solutions',
+        mcap_cr: 3100,
+        current_qtr_pct: 2.85,
+        prev_qtr_pct: 2.6,
+        is_increase: true,
+        report_date: today,
+      },
+    ];
+  }
+
+  async scrapeInsiders(): Promise<InsiderTrade[]> {
+    const { data: html } = await axios.get<string>(SECFORM4_URL, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (compatible; StockDashboard/1.0; +https://github.com/stock-dashboard)',
+        Accept: 'text/html,application/xhtml+xml',
+      },
+      timeout: 15_000,
+    });
+
+    return this.parseInsiderTable(html);
   }
 
   private async fetchTicker(symbol: string, fallbackName: string): Promise<VolumeShocker | null> {
@@ -107,146 +168,8 @@ export class VolumeShockerScraper implements IScraper<VolumeShocker> {
       sector,
     };
   }
-}
 
-// ---------------------------------------------------------------------------
-// 2. Indian Investor Holdings Mock Scraper
-// ---------------------------------------------------------------------------
-
-export class InvestorHoldingsMockScraper implements IScraper<InvestorHolding> {
-  async scrape(): Promise<InvestorHolding[]> {
-    // Realistic mock data representative of prominent Indian institutional investors.
-    // Replace with a live scrape from Trendlyne / Tickertape when available.
-    const today = new Date().toISOString();
-
-    return [
-      {
-        investor_name: 'Rakesh Jhunjhunwala (Estate)',
-        company_name: 'Titan Company Ltd',
-        mcap_cr: 285000,
-        current_qtr_pct: 5.05,
-        prev_qtr_pct: 5.05,
-        is_increase: false,
-        report_date: today,
-      },
-      {
-        investor_name: 'Dolly Khanna',
-        company_name: 'Tamilnadu Petro Products',
-        mcap_cr: 2800,
-        current_qtr_pct: 3.12,
-        prev_qtr_pct: 2.88,
-        is_increase: true,
-        report_date: today,
-      },
-      {
-        investor_name: 'Dolly Khanna',
-        company_name: 'Mangalore Chemicals',
-        mcap_cr: 1650,
-        current_qtr_pct: 1.74,
-        prev_qtr_pct: 1.82,
-        is_increase: false,
-        report_date: today,
-      },
-      {
-        investor_name: 'Vijay Kedia',
-        company_name: 'Tejas Networks',
-        mcap_cr: 7200,
-        current_qtr_pct: 2.3,
-        prev_qtr_pct: 2.1,
-        is_increase: true,
-        report_date: today,
-      },
-      {
-        investor_name: 'Vijay Kedia',
-        company_name: 'Atul Auto',
-        mcap_cr: 960,
-        current_qtr_pct: 4.5,
-        prev_qtr_pct: 4.5,
-        is_increase: false,
-        report_date: today,
-      },
-      {
-        investor_name: 'Ashish Kacholia',
-        company_name: 'Mold-Tek Packaging',
-        mcap_cr: 2200,
-        current_qtr_pct: 6.78,
-        prev_qtr_pct: 6.4,
-        is_increase: true,
-        report_date: today,
-      },
-      {
-        investor_name: 'Ashish Kacholia',
-        company_name: 'Garware Hi-Tech Films',
-        mcap_cr: 4500,
-        current_qtr_pct: 3.2,
-        prev_qtr_pct: 3.0,
-        is_increase: true,
-        report_date: today,
-      },
-      {
-        investor_name: 'Porinju Veliyath',
-        company_name: 'Orient Bell',
-        mcap_cr: 310,
-        current_qtr_pct: 5.5,
-        prev_qtr_pct: 5.9,
-        is_increase: false,
-        report_date: today,
-      },
-      {
-        investor_name: 'Mukul Agrawal',
-        company_name: 'Aurionpro Solutions',
-        mcap_cr: 3100,
-        current_qtr_pct: 2.85,
-        prev_qtr_pct: 2.6,
-        is_increase: true,
-        report_date: today,
-      },
-      {
-        investor_name: 'Radhakishan Damani',
-        company_name: 'Avenue Supermarts (DMart)',
-        mcap_cr: 220000,
-        current_qtr_pct: 25.0,
-        prev_qtr_pct: 24.9,
-        is_increase: true,
-        report_date: today,
-      },
-    ];
-  }
-}
-
-// ---------------------------------------------------------------------------
-// 3. Insider Trade Scraper — secform4.com via axios + cheerio
-// ---------------------------------------------------------------------------
-
-const SECFORM4_URL = 'https://www.secform4.com/insider-trading/';
-
-// Column indices in the secform4.com insider trading table (0-based).
-// Verify against live HTML if the site layout changes.
-const COL = {
-  TRADE_DATE: 0,
-  TICKER: 1,
-  INSIDER_NAME: 2,
-  INSIDER_TITLE: 3,
-  TRADE_TYPE: 4,
-  SHARES: 5,
-  VALUE_USD: 6,
-} as const;
-
-export class InsiderTradeScraperAdapter implements IScraper<InsiderTrade> {
-  async scrape(): Promise<InsiderTrade[]> {
-    const { data: html } = await axios.get<string>(SECFORM4_URL, {
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (compatible; StockDashboard/1.0; +https://github.com/stock-dashboard)',
-        Accept: 'text/html,application/xhtml+xml',
-      },
-      timeout: 15_000,
-    });
-
-    return this.parse(html);
-  }
-
-  parse(html: string): InsiderTrade[] {
+  private parseInsiderTable(html: string): InsiderTrade[] {
     const $ = cheerio.load(html);
     const trades: InsiderTrade[] = [];
 
@@ -309,3 +232,19 @@ export class InsiderTradeScraperAdapter implements IScraper<InsiderTrade> {
     return null;
   }
 }
+
+// Insider Trade Scraper — secform4.com via axios + cheerio
+
+const SECFORM4_URL = 'https://www.secform4.com/insider-trading/';
+
+// Column indices in the secform4.com insider trading table (0-based).
+// Verify against live HTML if the site layout changes.
+const COL = {
+  TRADE_DATE: 0,
+  TICKER: 1,
+  INSIDER_NAME: 2,
+  INSIDER_TITLE: 3,
+  TRADE_TYPE: 4,
+  SHARES: 5,
+  VALUE_USD: 6,
+} as const;

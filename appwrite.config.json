@@ -15,21 +15,7 @@
             "outputDirectory": ".next",
             "buildRuntime": "node-22",
             "adapter": "ssr",
-            "path": "frontend",
-            "vars": [
-                {
-                    "key": "NEXT_PUBLIC_APPWRITE_ENDPOINT",
-                    "value": "https://fra.cloud.appwrite.io/v1"
-                },
-                {
-                    "key": "NEXT_PUBLIC_APPWRITE_PROJECT_ID",
-                    "value": "69f58d76003dee022bc9"
-                },
-                {
-                    "key": "NEXT_PUBLIC_APPWRITE_DATABASE_ID",
-                    "value": "stock-dashboard"
-                }
-            ]
+            "path": "frontend"
         }
     ],
     "settings": {

@@ -15,7 +15,7 @@
     "axios": "^1.7.2",
     "cheerio": "^1.0.0",
     "node-appwrite": "^17.0.0",
-    "yahoo-finance2": "^2.11.3"
+    "yahoo-finance2": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

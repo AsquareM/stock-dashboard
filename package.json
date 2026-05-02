@@ -6,5 +6,8 @@
     "dev": "pnpm --filter financial-pulse-frontend dev",
     "build:backend": "pnpm --filter financial-pulse-backend build",
     "build:frontend": "pnpm --filter financial-pulse-frontend build"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
   }
 }

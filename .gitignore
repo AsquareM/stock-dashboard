@@ -141,6 +141,15 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# pnpm
+pnpm-lock.yaml is the source of truth; never commit npm lock files
+package-lock.json
+npm-shrinkwrap.json
+
+# Test outputs
+.test-output/
+backend/*.csv
+
 # Keep built backend output for Appwrite Function packaging
 !backend/dist/
 !backend/dist/**
